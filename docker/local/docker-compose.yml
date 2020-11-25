@@ -1,7 +1,7 @@
 version: '3'
 
 volumes:
-  dynamodb_data_test: {}
+  dynamodb_data: {}
 
 services:
   app: &app
@@ -31,6 +31,7 @@ services:
       - -c
       - |
         sh app.config.sh
+        npm install
         sleep infinity
     networks:
       - larabot
@@ -41,7 +42,7 @@ services:
       - dynamodb_data:/home/dynamodblocal
     command: '-Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal'
     networks:
-      - dailybot
+      - larabot
 
   dynamodb_admin:
     image: aaronshaf/dynamodb-admin:latest
@@ -52,7 +53,7 @@ services:
     ports:
       - "8010:8001"
     networks:
-      - dailybot
+      - larabot
 
 networks:
   larabot:
