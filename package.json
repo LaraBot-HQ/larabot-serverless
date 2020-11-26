@@ -1,12 +1,13 @@
 {
-  "name": "getPizzas",
+  "name": "LaraBot",
   "version": "1.0.0",
   "description": "",
-  "main": "handler.js",
+  "main": "handlers.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "serverless deploy",
-    "offline": "serverless offline"
+    "sls:deploy": "serverless deploy",
+    "sls:offline": "serverless offline",
+    "dynamodb:local:create:conversations-context": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=channelId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=channelId,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --query TableDescription.TableArn --output text"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +19,11 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.64",
-    "serverless": "^2.11.1",
+    "serverless": "^2.13.0",
     "serverless-offline": "^6.8.0",
-    "serverless-offline-dynamodb": "0.0.7-development",
     "serverless-offline-sqs": "^4.1.1",
     "serverless-plugin-typescript": "^1.1.9",
+    "serverless-dotenv-plugin": "^3.1.0",
     "typescript": "^4.0.5"
   }
 }

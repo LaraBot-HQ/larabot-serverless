@@ -7,7 +7,7 @@ const AWS = require('aws-sdk')
 
 // const orderMetadataManager = require('./orderMetadataManager');
 
-let sqs = new AWS.SQS({ region: process.env.REGION })
+let sqs = new AWS.SQS({ region: process.env.PROVIDER_REGION })
 const QUEUE_URL = process.env.PENDING_ORDER_QUEUE
 
 module.exports.makeOrder = (event, context, callback) => {

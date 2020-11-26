@@ -8,17 +8,19 @@ provider:
   region: us-east-1
   profile: default
   environment:
-    REGION: ${self:provider.region}
-    PENDING_ORDER_QUEUE:
-      Ref: PendingOrdersQueue
-    PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
-    COMPLETED_ORDER_TABLE: CompletedOrderTable
+    PROVIDER_REGION: ${self:provider.region}
+    # PENDING_ORDER_QUEUE:
+    #   Ref: PendingOrdersQueue
+    # PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
+    # COMPLETED_ORDER_TABLE: CompletedOrderTable
+  apiGateway:
+    shouldStartNameWithService: true
   iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "sqs:SendMessage"
-      Resource:
-        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+    # - Effect: "Allow"
+    #   Action:
+    #     - "sqs:SendMessage"
+    #   Resource:
+    #     - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
     - Effect: "Allow"
       Action:
         - "dynamodb:GetItem"
@@ -26,11 +28,11 @@ provider:
         - "dynamodb:UpdateItem"
         - "dynamodb:DeleteItem"
       Resource:
-        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.COMPLETED_ORDER_TABLE}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
 
 functions:
-  botApiListener:
-    handler: handlers.botApiListener
+  botApiGateway:
+    handler: handlers.botApiGateway
     events:
       - http:
           method: post
@@ -83,11 +85,26 @@ functions:
 
 resources:
   Resources:
-    PendingOrdersQueue:
-      Type: "AWS::SQS::Queue"
-      Properties:
-        QueueName: "${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
-    CompletedOrdersTable:
+    # PendingOrdersQueue:
+    #   Type: "AWS::SQS::Queue"
+    #   Properties:
+    #     QueueName: "${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+    # CompletedOrdersTable:
+    #   Type: "AWS::DynamoDB::Table"
+    #   Properties:
+    #     AttributeDefinitions:
+    #     - AttributeName: "orderId"
+    #       AttributeType: "S"
+    #     KeySchema:
+    #     - AttributeName: "orderId"
+    #       KeyType: "HASH"
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 1
+    #       WriteCapacityUnits: 1
+    #     TableName: ${self:provider.environment.COMPLETED_ORDER_TABLE}
+    #     StreamSpecification:
+    #       StreamViewType: NEW_IMAGE
+    ConversationsContext:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
@@ -99,39 +116,26 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-        TableName: ${self:provider.environment.COMPLETED_ORDER_TABLE}
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}
         StreamSpecification:
           StreamViewType: NEW_IMAGE
 
 
 plugins:
   - serverless-plugin-typescript
-  # - serverless-offline-dynamodb
-  # - serverless-offline-sqs
   - serverless-offline
+  - serverless-dotenv-plugin
 
 
 custom:
-  dynamodb:
-    # TODO: Implement this
-    # If you only want to use DynamoDB Offline in some stages, declare them here
-    stages:
-      - dev
-    start:
-      # Here you cane use all of the command line options described at
-      # https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.UsageNotes.html
-      cors: "*" # Enables support for cross-origin resource sharing (CORS) for JavaScript. You must provide a comma-separated "allow" list of specific domains. The default setting for [cors] is an asterisk (*), which allows public access.
-      dbPath: "/tmp" # The directory where DynamoDB writes its database file. If you don't specify this option, the file is written to the current directory. You can't specify both [dbPath] and [inMemory] at once.
-      delayTransientStatuses: true # Causes DynamoDB to introduce delays for certain operations. DynamoDB (Downloadable Version) can perform some tasks almost instantaneously, such as create/update/delete operations on tables and indexes. However, the DynamoDB service requires more time for these tasks. Setting this parameter helps DynamoDB running on your computer simulate the behavior of the DynamoDB web service more closely. (Currently, this parameter introduces delays only for global secondary indexes that are in either CREATING or DELETING status.)
-      inMemory: true # DynamoDB runs in memory instead of using a database file. When you stop DynamoDB, none of the data is saved. You can't specify both [dbPath] and [inMemory] at once.
-      optimizeDbBeforeStartup: true # Optimizes the underlying database tables before starting DynamoDB on your computer. You also must specify [dbPath] when you use this parameter.
-      port: 8000 # The port number that DynamoDB uses to communicate with your application. If you don't specify this option, the default port is 8000. If port 8000 is unavailable, this command throws an exception. You can use the port option to specify a different port number
-      sharedDb: true # If you specify [sharedDb], DynamoDB uses a single database file instead of separate files for each credential and Region.
-
-      # Some java -Xms arguments can also be provided as configs
-      heapInitial: "2048m" # Initial heap size for [java -Xms] arguments
-      heapMax: "1g" # Maximum heap size for [java -Xmx] arguments
-
-      # The plugin itself has a few helpful configuration options
-      migrate: true # After starting dynamodb local, create DynamoDB tables from the current serverless configuration.
-      noStart: false # Does not start the DynamoDB. This option is useful if you already have a running instance of DynamoDB locally
+  dotenv:
+    required:
+      file: true
+    path: ./docker/local/app/.env
+    basePath: ./
+    logging: true
+    exclude:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION
+      - AWS_DEFAULT_OUTPUT

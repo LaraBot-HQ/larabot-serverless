@@ -1,5 +1,5 @@
-import { handlerBotApiListener } from './src/functions/botApiListener/handler';
+import { handlerbotApiGateway } from './src/functions/botApiGateway/handler';
 import { handlerBotEngine } from './src/functions/botEngine/handler';
 
-export const botApiListener = handlerBotApiListener
+export const botApiGateway = handlerbotApiGateway
 export const botEngine = handlerBotEngine

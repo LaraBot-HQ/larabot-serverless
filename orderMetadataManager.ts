@@ -4,7 +4,7 @@ const AWS = require('aws-sdk')
 const dynamo = new AWS.DynamoDB.DocumentClient()
 
 /*
- order : {
+order : {
   orderId: String,
   name: String,
   address: String,
