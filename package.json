@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "sls:deploy": "serverless deploy",
     "sls:offline": "serverless offline",
-    "dynamodb:local:create:conversations-context": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=channelId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=channelId,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --query TableDescription.TableArn --output text"
+    "dynamodb:local:create:conversations-context": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=channelId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=channelId,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --query TableDescription.TableArn --output text",
+    "dynamodb:local:create:constances": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONSTANCES} --attribute-definitions AttributeName=configName,AttributeType=S --key-schema AttributeName=configName,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --query TableDescription.TableArn --output text"
   },
   "keywords": [],
   "author": "",

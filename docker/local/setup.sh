@@ -4,21 +4,21 @@
 . ./../utils.sh
 
 # Create envs vars if don't exist
-ENV_FILES=(".env" "app/.env")
-utils.check_envs_files "${ENV_FILES[@]}"
-
-# Load environment vars, to use from console, run follow command:
 utils.load_environment
-utils.load_environment_permissions
-utils.check_local_network
-utils.load_vscode_configs
 
-echo "Setup done..."
-
-if [[ "$1" == "setup.base" ]]; then
+if [[ "$1" == "base" ]]; then
+  utils.printer "Tip: Run this command only the first time outside the container"
+  ENV_FILES=(".env" "../../.env" "app/.env")
+  utils.check_envs_files "${ENV_FILES[@]}"
+  utils.load_vscode_configs
+  utils.load_environment_permissions
+  utils.check_local_network
   utils.printer "Setup done..."
-elif [[ "$1" == "setup.dynamodb" ]]; then
+elif [[ "$1" == "permissions" ]]; then
+  utils.printer "Setup permissions..."
+  chown -R ${SERVICE_PERMISSIONS} /home/node/app
+elif [[ "$1" == "dynamodb" ]]; then
   utils.printer "Setup tables..."
   echo "Create table: 'conversations-context'"
-
+  npm run dynamodb:local:create:conversations-context
 fi

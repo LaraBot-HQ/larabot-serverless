@@ -7,9 +7,12 @@ provider:
   runtime: nodejs12.x
   region: us-east-1
   profile: default
-  stage: development
   environment:
     PROVIDER_REGION: ${self:provider.region}
+    # PENDING_ORDER_QUEUE:
+    #   Ref: PendingOrdersQueue
+    # PENDING_ORDER_QUEUE_NAME: PendingOrdersQueue
+    # COMPLETED_ORDER_TABLE: CompletedOrderTable
   apiGateway:
     shouldStartNameWithService: true
   iamRoleStatements:
@@ -47,10 +50,61 @@ functions:
       - http:
           method: post
           path: bot-engine
+  # makeOrder:
+  #   handler: functionsLegacy.makeOrder
+  #   events:
+  #     - http:
+  #         method: post
+  #         path: order
+  # prepareOrder:
+  #   handler: functionsLegacy.prepareOrder
+  #   events:
+  #     - sqs:
+  #         arn:
+  #           Fn::GetAtt:
+  #             - PendingOrdersQueue
+  #             - Arn
+  #         batchSize: 1
+  # sendOrder:
+  #   handler: functionsLegacy.sendOrder
+  #   events:
+  #     - stream:
+  #         type: dynamodb
+  #         batchSize: 1
+  #         startingPosition: LATEST
+  #         arn:
+  #           Fn::GetAtt:
+  #             - CompletedOrdersTable
+  #             - StreamArn
+  # checkOrderState:
+  #   handler: functionsLegacy.checkOrderState
+  #   events:
+  #     - http:
+  #         method: get
+  #         path: checkOrder/{orderId}
 
 
 resources:
   Resources:
+    # PendingOrdersQueue:
+    #   Type: "AWS::SQS::Queue"
+    #   Properties:
+    #     QueueName: "${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+    # CompletedOrdersTable:
+    #   Type: "AWS::DynamoDB::Table"
+    #   Properties:
+    #     AttributeDefinitions:
+    #     - AttributeName: "orderId"
+    #       AttributeType: "S"
+    #     KeySchema:
+    #     - AttributeName: "orderId"
+    #       KeyType: "HASH"
+    #     ProvisionedThroughput:
+    #       ReadCapacityUnits: 1
+    #       WriteCapacityUnits: 1
+    #     TableName: ${self:provider.environment.COMPLETED_ORDER_TABLE}
+    #     StreamSpecification:
+    #       StreamViewType: NEW_IMAGE
     ConversationsContext:
       Type: "AWS::DynamoDB::Table"
       Properties:

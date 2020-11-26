@@ -2,7 +2,7 @@ FROM node:14.15.1-buster-slim
 LABEL maintainer="ops@rockalabs.com"
 
 RUN apt-get update -y && \
-    apt-get install less git wget unzip curl -y && \
+    apt-get install less git wget unzip curl make -y && \
     # --- Install AWS CLI ---
     wget -O /tmp/awscliv2.zip https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip && \
     unzip /tmp/awscliv2.zip -d /tmp/ && \
