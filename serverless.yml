@@ -68,6 +68,8 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
     Constances:
       Type: "AWS::DynamoDB::Table"
       Properties:
@@ -81,6 +83,8 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONSTANCES}
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
 
 
 plugins:

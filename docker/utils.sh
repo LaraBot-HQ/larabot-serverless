@@ -6,10 +6,9 @@ function utils.printer {
   GREEN='\033[0;32m'
     RESET='\033[0m'
   if [[ ! -z "$2" ]]; then
-    # print new line before
-      echo ""
-    fi
-    echo -e "${GREEN}$1${RESET}"
+    echo ""
+  fi
+  echo -e "${GREEN}$1${RESET}"
 }
 
 

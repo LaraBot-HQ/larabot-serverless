@@ -17,8 +17,36 @@ if [[ "$1" == "base" ]]; then
 elif [[ "$1" == "permissions" ]]; then
   utils.printer "Setup permissions..."
   chown -R ${SERVICE_PERMISSIONS} /home/node/app
-elif [[ "$1" == "dynamodb" ]]; then
+elif [[ "$1" == "dynamodb:list" ]]; then
+  utils.printer "List tables..."
+  DYNAMODB_TABLES_LIST=$(npm run dynamodb:local:list)
+  echo $DYNAMODB_TABLES_LIST
+elif [[ "$1" == "dynamodb:create" ]]; then
   utils.printer "Setup tables..."
-  echo "Create table: 'conversations-context'"
-  npm run dynamodb:local:create:conversations-context
+  utils.printer
+  utils.printer "List tables..."
+  DYNAMODB_TABLES_LIST=$(npm run dynamodb:local:list)
+  echo $DYNAMODB_TABLES_LIST
+  if [[ -z $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
+    npm run dynamodb:local:create:conversations-context
+  fi
+  if [[ -z $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONSTANCES}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONSTANCES}"
+    npm run dynamodb:local:create:constances
+  fi
+elif [[ "$1" == "dynamodb:delete" ]]; then
+  utils.printer "Setup tables..."
+  DYNAMODB_TABLES_LIST=$(npm run dynamodb:local:list)
+  utils.printer
+  utils.printer "Current Tables..."
+  echo $DYNAMODB_TABLES_LIST
+  if [[ $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
+    npm run dynamodb:local:delete:conversations-context
+  fi
+  if [[ $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONSTANCES}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONSTANCES}"
+    npm run dynamodb:local:delete:constances
+  fi
 fi
