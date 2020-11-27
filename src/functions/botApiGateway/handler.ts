@@ -1,4 +1,4 @@
-export const handlerbotApiGateway = (event, context, callback) => {
+export const handlerbotApiGateway = (event: any, context: any, callback: any) => {
   console.log('Request arrived...')
   const body = JSON.parse(event.body)
   console.log(body)

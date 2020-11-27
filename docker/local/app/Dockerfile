@@ -1,5 +1,5 @@
 FROM node:14.15.1-buster-slim
-LABEL maintainer="ops@rockalabs.com"
+LABEL maintainer="xergioalex@gmail.com"
 
 RUN apt-get update -y && \
     apt-get install less git wget unzip curl make -y && \

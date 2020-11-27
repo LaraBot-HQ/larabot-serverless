@@ -7,17 +7,17 @@ provider:
   runtime: nodejs12.x
   region: us-east-1
   profile: default
-  stage: development
+  stage: dev
   environment:
     PROVIDER_REGION: ${self:provider.region}
   apiGateway:
     shouldStartNameWithService: true
   iamRoleStatements:
-    # - Effect: "Allow"
-    #   Action:
-    #     - "sqs:SendMessage"
-    #   Resource:
-    #     - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.PENDING_ORDER_QUEUE_NAME}"
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+      Resource:
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_QUEUE}"
     - Effect: "Allow"
       Action:
         - "dynamodb:GetItem"
@@ -51,7 +51,7 @@ functions:
 
 resources:
   Resources:
-    ConversationsContext:
+    ConversationsContextDB:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
@@ -70,7 +70,7 @@ resources:
         TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}
         StreamSpecification:
           StreamViewType: NEW_IMAGE
-    Constances:
+    ConstancesDB:
       Type: "AWS::DynamoDB::Table"
       Properties:
         AttributeDefinitions:
@@ -85,6 +85,10 @@ resources:
         TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONSTANCES}
         StreamSpecification:
           StreamViewType: NEW_IMAGE
+    ConversationalEventQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_QUEUE}"
 
 
 plugins:

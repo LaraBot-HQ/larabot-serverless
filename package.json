@@ -5,8 +5,9 @@
   "main": "handlers.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "sls:deploy": "serverless deploy",
-    "sls:offline": "serverless offline",
+    "sls:deploy": "sls deploy",
+    "sls:offline": "sls offline",
+    "sls:remove": "sls remove",
     "dynamodb:local:list": "aws dynamodb list-tables --endpoint-url ${DYNAMODB_ENDPOINT_URL}",
     "dynamodb:local:create:conversations-context": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=channelId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=channelId,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE --query TableDescription.TableArn --output text",
     "dynamodb:local:create:constances": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONSTANCES} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=configName,AttributeType=S --key-schema AttributeName=configName,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE --query TableDescription.TableArn --output text",
@@ -17,17 +18,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^14.14.7",
-    "aws-sdk": "^2.788.0",
-    "uuid": "^8.3.1"
+    "@types/node": "14.14.10",
+    "aws-sdk": "2.799.0",
+    "@sentry/node": "5.27.6",
+    "@types/async": "3.2.4",
+    "@types/superagent": "4.1.10",
+    "async": "3.2.0"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.64",
-    "serverless": "^2.13.0",
-    "serverless-offline": "^6.8.0",
-    "serverless-offline-sqs": "^4.1.1",
-    "serverless-plugin-typescript": "^1.1.9",
-    "serverless-dotenv-plugin": "^3.1.0",
-    "typescript": "^4.0.5"
+    "@types/aws-lambda": "8.10.64",
+    "serverless": "2.13.0",
+    "serverless-offline": "6.8.0",
+    "serverless-plugin-typescript": "1.1.9",
+    "serverless-dotenv-plugin": "3.1.0",
+    "typescript": "4.0.5"
   }
 }

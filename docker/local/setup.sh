@@ -31,6 +31,16 @@ elif [[ "$1" == "dynamodb:create" ]]; then
     echo "Creating table: ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
     npm run dynamodb:local:create:conversations-context
   fi
+  export DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT=${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT_TEST}
+  if [[ -z $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
+    npm run dynamodb:local:create:conversations-context
+  fi
+  if [[ -z $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONSTANCES}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONSTANCES}"
+    npm run dynamodb:local:create:constances
+  fi
+  export DYNAMODB_TABLE_NAME_CONSTANCES=${DYNAMODB_TABLE_NAME_CONSTANCES_TEST}
   if [[ -z $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONSTANCES}) ]]; then
     echo "Creating table: ${DYNAMODB_TABLE_NAME_CONSTANCES}"
     npm run dynamodb:local:create:constances
@@ -45,6 +55,16 @@ elif [[ "$1" == "dynamodb:delete" ]]; then
     echo "Creating table: ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
     npm run dynamodb:local:delete:conversations-context
   fi
+  export DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT=${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT_TEST}
+  if [[ $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
+    npm run dynamodb:local:delete:conversations-context
+  fi
+  if [[ $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONSTANCES}) ]]; then
+    echo "Creating table: ${DYNAMODB_TABLE_NAME_CONSTANCES}"
+    npm run dynamodb:local:delete:constances
+  fi
+  export DYNAMODB_TABLE_NAME_CONSTANCES=${DYNAMODB_TABLE_NAME_CONSTANCES_TEST}
   if [[ $(echo $DYNAMODB_TABLES_LIST | grep ${DYNAMODB_TABLE_NAME_CONSTANCES}) ]]; then
     echo "Creating table: ${DYNAMODB_TABLE_NAME_CONSTANCES}"
     npm run dynamodb:local:delete:constances
