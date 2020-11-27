@@ -5,8 +5,9 @@
   "main": "handlers.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "sls:logs": "sls logs -f botApiGatewaySlack",
     "sls:deploy": "sls deploy",
-    "sls:offline": "sls offline",
+    "sls:offline": "sls offline --host 0.0.0.0",
     "sls:remove": "sls remove",
     "dynamodb:local:list": "aws dynamodb list-tables --endpoint-url ${DYNAMODB_ENDPOINT_URL}",
     "dynamodb:local:create:conversations-context": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=channelId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=channelId,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE --query TableDescription.TableArn --output text",

@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   dynamodb_data: {}
+  vscode_ssh: {}
 
 services:
   app: &app
@@ -11,6 +12,7 @@ services:
     working_dir: /home/node/app
     volumes:
       - ../../:/home/node/app
+      - vscode_ssh:/root/.ssh
     env_file:
       - app/.env
     command:
@@ -21,6 +23,8 @@ services:
         npm install
         chown -R ${SERVICE_PERMISSIONS} /home/node/app
         npm offline
+    ports:
+      - "3000:3000"
     networks:
       - larabot
 

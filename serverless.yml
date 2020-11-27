@@ -17,7 +17,9 @@ provider:
       Action:
         - "sqs:SendMessage"
       Resource:
-        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_QUEUE}"
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_SLACK_QUEUE}"
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_HANGOUTS_QUEUE}"
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_MSTEAMS_QUEUE}"
     - Effect: "Allow"
       Action:
         - "dynamodb:GetItem"
@@ -29,28 +31,55 @@ provider:
         - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_NAME_CONSTANCES}"
 
 functions:
-  botApiGateway:
-    handler: handlers.botApiGateway
+
+  # Bot API Functions
+
+  botApiGatewaySlack:
+    handler: handlers.botApiGatewaySlack
     events:
       - http:
           method: post
           path: events/slack
-      - http:
-          method: post
-          path: events/hangouts
-      - http:
-          method: post
-          path: events/msteams
-  botEngine:
-    handler: handlers.botEngine
+  botApiGatewayHangouts:
+    handler: handlers.botApiGatewayHangouts
     events:
       - http:
           method: post
-          path: bot-engine
+          path: events/hangouts
+  botApiGatewayMSTeams:
+    handler: handlers.botApiGatewayMSTeams
+    events:
+      - http:
+          method: post
+          path: events/msteams
+
+  # Bot Engine Functions
+
+  botEngineSlack:
+    handler: handlers.botEngineSlack
+    events:
+      - http:
+          method: post
+          path: bot-engine-slack
+  botEngineHangouts:
+    handler: handlers.botEngineHangouts
+    events:
+      - http:
+          method: post
+          path: bot-engine-hangouts
+  botEngineMSTeams:
+    handler: handlers.botEngineMSTeams
+    events:
+      - http:
+          method: post
+          path: bot-engine-msteams
 
 
 resources:
   Resources:
+
+    # DynamoDB Tables
+
     ConversationsContextDB:
       Type: "AWS::DynamoDB::Table"
       Properties:
@@ -85,10 +114,21 @@ resources:
         TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONSTANCES}
         StreamSpecification:
           StreamViewType: NEW_IMAGE
-    ConversationalEventQueue:
+
+    # SQS Queues
+
+    ConversationalEventSlackQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_QUEUE}"
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_SLACK_QUEUE}"
+    ConversationalEventHangoutsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_HANGOUTS_QUEUE}"
+    ConversationalEventMSTeamsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_MSTEAMS_QUEUE}"
 
 
 plugins:
