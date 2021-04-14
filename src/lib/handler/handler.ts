@@ -25,9 +25,9 @@ export class SlackHandler extends BaseHandler {
 }
 
 
-export class HangoutsHandler extends BaseHandler {
+export class GChatHandler extends BaseHandler {
   constructor(handler: any) {
-    super(ChatPlatformEType.HANGOUTS, handler)
+    super(ChatPlatformEType.GCHAT, handler)
   }
 }
 

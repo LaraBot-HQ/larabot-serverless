@@ -10,7 +10,7 @@ export interface MessagePayload {
   body: ObjectType,
 }
 
-export interface ChatPlatformRegistryType {
+export interface ChatPlatformFactoryType {
   slack: any,
   hangouts: any,
   msteams: any,

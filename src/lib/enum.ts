@@ -8,19 +8,19 @@ export enum Environment {
 
 export enum ChatPlatformEType {
   SLACK = 'slack',
-  HANGOUTS = 'hangouts',
+  GCHAT = 'gchat',
   MSTEAMS = 'msteams',
 }
 
 export enum ChatPlatformETypeName {
   slack = 'Slack',
-  hangouts = 'Hangouts',
+  gchat = 'Google Chat',
   msteams = 'MSTeams',
 }
 
 export enum ChatPlatformETypeFullName {
   slack = 'Slack',
-  hangouts = 'Hangouts Chat',
+  gchat = 'Google Chat',
   msteams = 'Microsoft Teams',
 }
 
