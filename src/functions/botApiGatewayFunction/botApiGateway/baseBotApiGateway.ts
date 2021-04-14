@@ -1,18 +1,18 @@
-import { ChatPlatformEType } from '../../../lib/enum'
+// import { ChatPlatformEType } from '../../../lib/enum'
 
 
-abstract class BaseBotApiGateway {
-  protected platform: ChatPlatformEType
-  protected sqsQueue: BasePublisher
+// abstract class BaseBotApiGateway {
+//   protected platform: ChatPlatformEType
+//   protected sqsQueue: BasePublisher
 
-  constructor(platform: ChatPlatformEType) {
-    this.platform = platform
-    this.sqsQueue = new PublisherRegistry[settings.PUBLISHER_TYPE](this.platform)
-  }
+//   constructor(platform: ChatPlatformEType) {
+//     this.platform = platform
+//     this.sqsQueue = new PublisherRegistry[settings.PUBLISHER_TYPE](this.platform)
+//   }
 
-  public abstract async processEvent(request: any): Promise<object>
-  public abstract validateRequest(request: any): boolean
-  public abstract shouldProcessRequest(request: any): boolean
-}
+//   public abstract async processEvent(request: any): Promise<object>
+//   public abstract validateRequest(request: any): boolean
+//   public abstract shouldProcessRequest(request: any): boolean
+// }
 
-export default BaseBotApiGateway
+// export default BaseBotApiGateway

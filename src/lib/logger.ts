@@ -114,7 +114,7 @@ class Logger {
           errors += info
         }
         errors += ' '
-        console.error(info)
+        console.error(errors)
 
         // Send sentry error notification
         if (settings.SENTRY_DNS && !Logger.isString(info)) {
