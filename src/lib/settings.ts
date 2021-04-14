@@ -15,6 +15,7 @@ const settings = {
     response: 10000,  // Wait 5 seconds for the server to start sending response,
     deadline: 40000, // Time limit for waiting for responses.
   },
+  BOT_ENGINE_LOCAL_API_GATEWAY_URL: 'http://localhost:3000/dev/events/slack',
 
   /**
    * --- Chat Platforms ---
@@ -49,18 +50,28 @@ const settings = {
   // Sentry Config
   SENTRY_DNS: process.env.SENTRY_DNS,
 
-  // DynamoDB Tables Config
-  DYNAMODB_TABLE_NAME_USERCHATS: process.env.DYNAMODB_TABLE_NAME_USERCHATS,
-  DYNAMODB_TABLE_NAME_CHANNELS: process.env.DYNAMODB_TABLE_NAME_CHANNELS,
-  DYNAMODB_TABLE_NAME_RESPONSES: process.env.DYNAMODB_TABLE_NAME_RESPONSES,
-  DYNAMODB_TABLE_NAME_CONSTANCES: process.env.DYNAMODB_TABLE_NAME_CONSTANCES,
-
   /**
    * --- Provider Config ---
    */
 
   // AWS Config
   AWS_CONFIG: {},
+
+  // DynamoDB Tables Config
+  DYNAMODB_TABLE_NAME_USERCHATS: process.env.DYNAMODB_TABLE_NAME_USERCHATS,
+  DYNAMODB_TABLE_NAME_CHANNELS: process.env.DYNAMODB_TABLE_NAME_CHANNELS,
+  DYNAMODB_TABLE_NAME_RESPONSES: process.env.DYNAMODB_TABLE_NAME_RESPONSES,
+  DYNAMODB_TABLE_NAME_CONSTANCES: process.env.DYNAMODB_TABLE_NAME_CONSTANCES,
+
+  // SNS ARN Config
+  SNS_TOPIC_ARN_SLACK: process.env.SNS_TOPIC_ARN_SLACK,
+  SNS_TOPIC_ARN_HANGOUTS: process.env.SNS_TOPIC_ARN_HANGOUTS,
+  SNS_TOPIC_ARN_MSTEAMS: process.env.SNS_TOPIC_ARN_MSTEAMS,
+
+  // SQS ARN Config
+  SQS_QUEUE_ARN_SLACK: process.env.SQS_QUEUE_ARN_SLACK,
+  SQS_QUEUE_ARN_HANGOUTS: process.env.SQS_QUEUE_ARN_HANGOUTS,
+  SQS_QUEUE_ARN_MSTEAMS: process.env.SQS_QUEUE_ARN_MSTEAMS,
 }
 
 /**

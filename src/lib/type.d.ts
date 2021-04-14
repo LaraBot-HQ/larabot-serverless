@@ -7,7 +7,7 @@ export interface ObjectType {
 export interface MessagePayload {
   chatEvent: boolean,
   platform: ChatPlatformEType,
-  body: any,
+  body: ObjectType,
 }
 
 export interface ChatPlatformRegistryType {

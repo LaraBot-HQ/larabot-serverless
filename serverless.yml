@@ -9,7 +9,13 @@ provider:
   profile: default
   stage: dev
   environment:
-    PROVIDER_REGION: ${self:provider.region}
+    PROVIDER_REGION: ${self:provider.region},
+    SQS_QUEUE_ARN_SLACK:
+      Ref: ConversationalEventSlackQueue
+    SQS_QUEUE_ARN_HANGOUTS:
+      Ref: ConversationalEventHangoutsQueue
+    SQS_QUEUE_ARN_MSTEAMS:
+      Ref: ConversationalEventMSTeamsQueue
   apiGateway:
     shouldStartNameWithService: true
   iamRoleStatements:
