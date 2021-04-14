@@ -12,8 +12,8 @@ provider:
     PROVIDER_REGION: ${self:provider.region},
     SQS_QUEUE_ARN_SLACK:
       Ref: ConversationalEventSlackQueue
-    SQS_QUEUE_ARN_HANGOUTS:
-      Ref: ConversationalEventHangoutsQueue
+    SQS_QUEUE_ARN_GCHAT:
+      Ref: ConversationalEventGChatQueue
     SQS_QUEUE_ARN_MSTEAMS:
       Ref: ConversationalEventMSTeamsQueue
   apiGateway:
@@ -24,7 +24,7 @@ provider:
         - "sqs:SendMessage"
       Resource:
         - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_SLACK_QUEUE}"
-        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_HANGOUTS_QUEUE}"
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_GCHAT_QUEUE}"
         - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_MSTEAMS_QUEUE}"
     - Effect: "Allow"
       Action:
@@ -46,12 +46,12 @@ functions:
       - http:
           method: post
           path: events/slack
-  botApiGatewayHangouts:
-    handler: handlers.botApiGatewayHangouts
+  botApiGatewayGChat:
+    handler: handlers.botApiGatewayGChat
     events:
       - http:
           method: post
-          path: events/hangouts
+          path: events/gchat
   botApiGatewayMSTeams:
     handler: handlers.botApiGatewayMSTeams
     events:
@@ -67,12 +67,12 @@ functions:
       - http:
           method: post
           path: bot-engine-slack
-  botEngineHangouts:
-    handler: handlers.botEngineHangouts
+  botEngineGChat:
+    handler: handlers.botEngineGChat
     events:
       - http:
           method: post
-          path: bot-engine-hangouts
+          path: bot-engine-gchat
   botEngineMSTeams:
     handler: handlers.botEngineMSTeams
     events:
@@ -127,10 +127,10 @@ resources:
       Type: "AWS::SQS::Queue"
       Properties:
         QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_SLACK_QUEUE}"
-    ConversationalEventHangoutsQueue:
+    ConversationalEventGChatQueue:
       Type: "AWS::SQS::Queue"
       Properties:
-        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_HANGOUTS_QUEUE}"
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_GCHAT_QUEUE}"
     ConversationalEventMSTeamsQueue:
       Type: "AWS::SQS::Queue"
       Properties:

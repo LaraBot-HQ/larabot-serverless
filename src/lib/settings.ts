@@ -24,8 +24,8 @@ const settings = {
   // Slack Config
   SLACK_API_URL: 'https://slack.com/api/',
 
-  // Google Hangouts Config
-  HANGOUTS_CHAT_API_URL: 'https://chat.googleapis.com/',
+  // Google Chat Config
+  GCHAT_CHAT_API_URL: 'https://chat.googleapis.com/',
   GOOGLE_AUTH: {
     client_email: process.env.GAUTH_CLIENT_EMAIL,
     private_key: (process.env.GAUTH_PRIVATE_KEY)? process.env.GAUTH_PRIVATE_KEY.replace(/\\n/g, '\n') : '',
@@ -65,12 +65,12 @@ const settings = {
 
   // SNS ARN Config
   SNS_TOPIC_ARN_SLACK: process.env.SNS_TOPIC_ARN_SLACK,
-  SNS_TOPIC_ARN_HANGOUTS: process.env.SNS_TOPIC_ARN_HANGOUTS,
+  SNS_TOPIC_ARN_GCHAT: process.env.SNS_TOPIC_ARN_GCHAT,
   SNS_TOPIC_ARN_MSTEAMS: process.env.SNS_TOPIC_ARN_MSTEAMS,
 
   // SQS ARN Config
   SQS_QUEUE_ARN_SLACK: process.env.SQS_QUEUE_ARN_SLACK,
-  SQS_QUEUE_ARN_HANGOUTS: process.env.SQS_QUEUE_ARN_HANGOUTS,
+  SQS_QUEUE_ARN_GCHAT: process.env.SQS_QUEUE_ARN_GCHAT,
   SQS_QUEUE_ARN_MSTEAMS: process.env.SQS_QUEUE_ARN_MSTEAMS,
 }
 

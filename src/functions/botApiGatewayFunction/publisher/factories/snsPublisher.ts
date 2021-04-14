@@ -8,7 +8,7 @@
 
 // const SnsTopicArnRegistry: ChatPlatformRegistryType = {
 //   slack: settings.SNS_TOPIC_ARN_SLACK,
-//   hangouts: settings.SNS_TOPIC_ARN_HANGOUTS,
+//   gchat: settings.SNS_TOPIC_ARN_GCHAT,
 //   msteams: settings.SNS_TOPIC_ARN_MSTEAMS,
 // }
 

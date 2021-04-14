@@ -40,7 +40,7 @@ functions:
           path: events/slack
       - http:
           method: post
-          path: events/hangouts
+          path: events/gchat
       - http:
           method: post
           path: events/msteams

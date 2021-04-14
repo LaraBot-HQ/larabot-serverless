@@ -3,7 +3,7 @@ import { GChatHandler, MSTeamsHandler, SlackHandler } from './handler'
 
 const FunctionHandlerFactory: ChatPlatformFactoryType = {
   slack: SlackHandler,
-  hangouts: GChatHandler,
+  gchat: GChatHandler,
   msteams: MSTeamsHandler
 }
 

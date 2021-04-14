@@ -9,7 +9,7 @@ import FunctionHandlerFactory from './src/lib/handler/factory'
 export const botApiGatewaySlack = async (event: any, context: any, callback: any) => {
   return await new FunctionHandlerFactory[ChatPlatformEType.SLACK](handlerBotApiGateway).processHandler(event, context, callback)
 }
-export const botApiGatewayHangouts = async (event: any, context: any, callback: any) => {
+export const botApiGatewayGChat = async (event: any, context: any, callback: any) => {
   return await new FunctionHandlerFactory[ChatPlatformEType.GCHAT](handlerBotApiGateway).processHandler(event, context, callback)
 }
 export const botApiGatewayMSTeams = async (event: any, context: any, callback: any) => {
@@ -22,7 +22,7 @@ export const botApiGatewayMSTeams = async (event: any, context: any, callback: a
 export const botEngineSlack = async (event: any, context: any, callback: any) => {
   return await new FunctionHandlerFactory[ChatPlatformEType.SLACK](handlerBotEngine).processHandler(event, context, callback)
 }
-export const botEngineHangouts = async (event: any, context: any, callback: any) => {
+export const botEngineGChat = async (event: any, context: any, callback: any) => {
   return await new FunctionHandlerFactory[ChatPlatformEType.GCHAT](handlerBotEngine).processHandler(event, context, callback)
 }
 export const botEngineMSTeams = async (event: any, context: any, callback: any) => {

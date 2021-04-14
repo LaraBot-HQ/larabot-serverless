@@ -12,6 +12,6 @@ export interface MessagePayload {
 
 export interface ChatPlatformFactoryType {
   slack: any,
-  hangouts: any,
+  gchat: any,
   msteams: any,
 }

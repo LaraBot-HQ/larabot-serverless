@@ -37,6 +37,7 @@
 		"esbenp.prettier-vscode",
 		"oderwat.indent-rainbow",
 		"mhutchie.git-graph",
-		"atlassian.atlascode"
+		"atlassian.atlascode",
+		"TabNine.tabnine-vscode"
 	]
 }

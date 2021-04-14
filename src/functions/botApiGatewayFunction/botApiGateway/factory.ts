@@ -1,9 +1,9 @@
 // import { ChatPlatformRegistryType } from '../type'
-// import { HangoutsHandler, MSTeamsHandler, SlackHandler } from './handler'
+// import { GChatHandler, MSTeamsHandler, SlackHandler } from './handler'
 
 // const BotApiGatewayRegistry: ChatPlatformRegistryType = {
 //   slack: SlackBotApiGateway,
-//   hangouts: HangoutsBotApiGateway,
+//   gchat: GChatBotApiGateway,
 //   msteams: MSTeamsBotApiGateway
 // }
 
