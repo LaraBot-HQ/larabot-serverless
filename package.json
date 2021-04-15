@@ -19,20 +19,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "14.14.39",
-    "aws-sdk": "2.887.0",
     "@sentry/node": "6.2.5",
     "@types/async": "3.2.6",
+    "@types/node": "14.14.39",
     "@types/superagent": "4.1.10",
     "async": "3.2.0",
+    "aws-sdk": "2.887.0",
     "superagent": "6.1.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.75",
     "serverless": "2.35.0",
+    "serverless-dotenv-plugin": "3.9.0",
     "serverless-offline": "6.9.0",
     "serverless-plugin-typescript": "1.1.9",
-    "serverless-dotenv-plugin": "3.9.0",
     "typescript": "4.2.4"
   }
 }
