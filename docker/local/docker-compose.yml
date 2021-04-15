@@ -1,0 +1,77 @@
+version: '3'
+
+volumes:
+  dynamodb_data: {}
+  vscode_ssh: {}
+
+services:
+  app: &app
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    working_dir: /home/node/app
+    volumes:
+      - ../../:/home/node/app
+      - vscode_ssh:/root/.ssh
+    env_file:
+      - app/.env
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh app.config.sh
+        npm install
+        chown -R ${SERVICE_PERMISSIONS} /home/node/app
+        npm offline
+    ports:
+      - "3000:3000"
+    networks:
+      - larabot
+
+  app_vscode:
+    <<: *app
+    command:
+      - /bin/sh
+      - -c
+      - |
+        sh app.config.sh
+        npm install
+        sleep infinity
+    networks:
+      - larabot
+
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    volumes:
+      - dynamodb_data:/home/dynamodblocal
+    command: '-Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal'
+    networks:
+      - larabot
+
+  dynamodb_admin:
+    image: aaronshaf/dynamodb-admin:latest
+    depends_on:
+      - dynamodb
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb:8000
+    ports:
+      - "8020:8001"
+    networks:
+      - larabot
+
+  sqs:
+    image: roribio16/alpine-sqs:latest
+    container_name: alpine-sqs
+    ports:
+      - "9324:9324"
+      - "9325:9325"
+    stdin_open: true
+    tty: true
+    networks:
+      - larabot
+
+networks:
+  larabot:
+    external:
+      name: larabot-project-network
+

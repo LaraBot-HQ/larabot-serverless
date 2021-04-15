@@ -1,0 +1,38 @@
+{
+  "name": "LaraBot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handlers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sls:logs": "sls logs -f botApiGatewaySlack",
+    "sls:deploy": "sls deploy",
+    "sls:offline": "sls offline --host 0.0.0.0",
+    "sls:remove": "sls remove",
+    "dynamodb:local:list": "aws dynamodb list-tables --endpoint-url ${DYNAMODB_ENDPOINT_URL}",
+    "dynamodb:local:create:conversations-context": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=userId,AttributeType=S AttributeName=channelId,AttributeType=S --key-schema AttributeName=userId,KeyType=HASH AttributeName=channelId,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE --query TableDescription.TableArn --output text",
+    "dynamodb:local:create:constances": "aws dynamodb create-table --table-name ${DYNAMODB_TABLE_NAME_CONSTANCES} --endpoint-url ${DYNAMODB_ENDPOINT_URL} --attribute-definitions AttributeName=configName,AttributeType=S --key-schema AttributeName=configName,KeyType=HASH --provisioned-throughput ReadCapacityUnits=1,WriteCapacityUnits=1 --region ${AWS_DEFAULT_REGION} --stream-specification StreamEnabled=true,StreamViewType=NEW_IMAGE --query TableDescription.TableArn --output text",
+    "dynamodb:local:delete:conversations-context": "aws dynamodb delete-table --table-name ${DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT} --endpoint-url ${DYNAMODB_ENDPOINT_URL}",
+    "dynamodb:local:delete:constances": "aws dynamodb delete-table --table-name ${DYNAMODB_TABLE_NAME_CONSTANCES} --endpoint-url ${DYNAMODB_ENDPOINT_URL}"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "14.14.39",
+    "aws-sdk": "2.887.0",
+    "@sentry/node": "6.2.5",
+    "@types/async": "3.2.6",
+    "@types/superagent": "4.1.10",
+    "async": "3.2.0",
+    "superagent": "6.1.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.75",
+    "serverless": "2.35.0",
+    "serverless-offline": "6.9.0",
+    "serverless-plugin-typescript": "1.1.9",
+    "serverless-dotenv-plugin": "3.9.0",
+    "typescript": "4.2.4"
+  }
+}

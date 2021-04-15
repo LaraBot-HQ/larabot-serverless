@@ -1,0 +1,157 @@
+service: LaraBot
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-1
+  profile: default
+  stage: dev
+  environment:
+    PROVIDER_REGION: ${self:provider.region},
+    SQS_QUEUE_ARN_SLACK:
+      Ref: ConversationalEventSlackQueue
+    SQS_QUEUE_ARN_GCHAT:
+      Ref: ConversationalEventGChatQueue
+    SQS_QUEUE_ARN_MSTEAMS:
+      Ref: ConversationalEventMSTeamsQueue
+  apiGateway:
+    shouldStartNameWithService: true
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "sqs:SendMessage"
+      Resource:
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_SLACK_QUEUE}"
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_GCHAT_QUEUE}"
+        - "arn:aws:sqs:${self:provider.region}:*:${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_MSTEAMS_QUEUE}"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}"
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE_NAME_CONSTANCES}"
+
+functions:
+
+  # Bot API Functions
+
+  botApiGatewaySlack:
+    handler: handlers.botApiGatewaySlack
+    events:
+      - http:
+          method: post
+          path: events/slack
+  botApiGatewayGChat:
+    handler: handlers.botApiGatewayGChat
+    events:
+      - http:
+          method: post
+          path: events/gchat
+  botApiGatewayMSTeams:
+    handler: handlers.botApiGatewayMSTeams
+    events:
+      - http:
+          method: post
+          path: events/msteams
+
+  # Bot Engine Functions
+
+  botEngineSlack:
+    handler: handlers.botEngineSlack
+    events:
+      - http:
+          method: post
+          path: bot-engine-slack
+  botEngineGChat:
+    handler: handlers.botEngineGChat
+    events:
+      - http:
+          method: post
+          path: bot-engine-gchat
+  botEngineMSTeams:
+    handler: handlers.botEngineMSTeams
+    events:
+      - http:
+          method: post
+          path: bot-engine-msteams
+
+
+resources:
+  Resources:
+
+    # DynamoDB Tables
+
+    ConversationsContextDB:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "userId"
+          AttributeType: "S"
+        - AttributeName: "channelId"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "userId"
+          KeyType: "HASH"
+        - AttributeName: "channelId"
+          KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONVERSATIONS_CONTEXT}
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
+    ConstancesDB:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        AttributeDefinitions:
+        - AttributeName: "configName"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "configName"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME_CONSTANCES}
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
+
+    # SQS Queues
+
+    ConversationalEventSlackQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_SLACK_QUEUE}"
+    ConversationalEventGChatQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_GCHAT_QUEUE}"
+    ConversationalEventMSTeamsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "${self:provider.environment.SQS_NAME_CONVERSATIONAL_EVENT_MSTEAMS_QUEUE}"
+
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+
+custom:
+  dotenv:
+    required:
+      file: true
+    path: ./docker/local/app/.env
+    basePath: ./
+    logging: true
+    exclude:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - AWS_DEFAULT_REGION
+      - AWS_DEFAULT_OUTPUT
