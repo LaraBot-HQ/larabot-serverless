@@ -1,10 +1,13 @@
-// import { PublisherFactoryType } from './type'
+import HttpPublisher from './factories/httpPublisher'
+import SNSPublisher from './factories/snsPublisher'
+import SQSPublisher from './factories/sqsPublisher'
+import { PublisherFactoryType } from './type'
 
 
-// const PublisherFactory: PublisherFactoryType = {
-//   http: HttpPublisher,
-//   sns: SNSPublisher,
-//   sqs: SQSPublisher,
-// }
+const PublisherFactory: PublisherFactoryType = {
+  http: HttpPublisher,
+  sns: SNSPublisher,
+  sqs: SQSPublisher,
+}
 
-// export default PublisherFactory
+export default PublisherFactory

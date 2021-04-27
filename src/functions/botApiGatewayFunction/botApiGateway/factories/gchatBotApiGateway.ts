@@ -3,11 +3,11 @@ import { ChatPlatformEType } from '../../../../lib/enum'
 import { ObjectType } from '../../../../lib/type'
 
 
-class MSTeamsApiGateway extends BaseApiGateway {
+class GChatApiGateway extends BaseApiGateway {
   protected platform: ChatPlatformEType
 
   constructor() {
-    super(ChatPlatformEType.MSTEAMS)
+    super(ChatPlatformEType.GCHAT)
   }
 
   public async processEvent(request: any): Promise<ObjectType | string> {
@@ -17,10 +17,10 @@ class MSTeamsApiGateway extends BaseApiGateway {
   public validateRequest(request: any): boolean {
     return true
   }
-  
+
   public shouldProcessRequest(request: any): boolean {
     return true
   }
 }
 
-export default MSTeamsApiGateway
+export default GChatApiGateway

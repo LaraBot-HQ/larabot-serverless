@@ -13,7 +13,12 @@ abstract class BaseHandler {
 
   public async processHandler(event: any, context: any, callback: any): Promise<void> {
     Logger.log(`> New event from "${ChatPlatformETypeFullName[this.platform]}" received...`)
-    await this.handler(this.platform, event, context, callback)
+    let result: any = await this.handler(this.platform, event, context)
+
+    callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    })
   }
 }
 

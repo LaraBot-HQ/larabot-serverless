@@ -1,10 +1,13 @@
-// import { ChatPlatformRegistryType } from '../type'
-// import { GChatHandler, MSTeamsHandler, SlackHandler } from './handler'
+import { ChatPlatformFactoryType } from '../../../lib/type'
+import GChatApiGateway from './factories/gchatBotApiGateway'
+import MSTeamsApiGateway from './factories/msteamsBotApiGateway'
+import SlackApiGateway from './factories/slackBotApiGateway'
 
-// const BotApiGatewayRegistry: ChatPlatformRegistryType = {
-//   slack: SlackBotApiGateway,
-//   gchat: GChatBotApiGateway,
-//   msteams: MSTeamsBotApiGateway
-// }
 
-// export default BotApiGatewayRegistry
+const BotApiGatewayRegistry: ChatPlatformFactoryType = {
+  slack: SlackApiGateway,
+  gchat: GChatApiGateway,
+  msteams: MSTeamsApiGateway
+}
+
+export default BotApiGatewayRegistry

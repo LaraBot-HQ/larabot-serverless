@@ -1,12 +1,10 @@
 import { ChatPlatformEType } from "../../lib/enum"
+import BaseApiGateway from "./botApiGateway/baseBotApiGateway"
+import BotApiGatewayRegistry from "./botApiGateway/factory"
 
 
-export const handlerBotApiGateway = async (platform: ChatPlatformEType, event: any, context: any, callback: any) => {
+export const handlerBotApiGateway = async (platform: ChatPlatformEType, event: any, context: any) => {
   console.log(`Request arrived by platform: ${platform} ...`)
-  const body = JSON.parse(event.body)
-
-  callback(null, {
-    statusCode: 200,
-    body: JSON.stringify(body),
-  })
+  const slackListener: BaseApiGateway = new BotApiGatewayRegistry[platform]()
+  return await slackListener.processEvent(event)
 }

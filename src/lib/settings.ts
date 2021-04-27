@@ -4,7 +4,7 @@ import { Environment } from './enum'
 /**
  * Core settings
  */
-const settings = {
+const baseSettings = {
   // Global Config
   DEBUG: process.env.DEBUG,
   ENVIRONMENT: process.env.ENVIRONMENT,
@@ -15,7 +15,6 @@ const settings = {
     response: 10000,  // Wait 5 seconds for the server to start sending response,
     deadline: 40000, // Time limit for waiting for responses.
   },
-  BOT_ENGINE_LOCAL_API_GATEWAY_URL: 'http://localhost:3000/dev/events/slack',
 
   /**
    * --- Chat Platforms ---
@@ -77,12 +76,12 @@ const settings = {
 /**
  * AWS settings should be override for local and testing environments to use a local dynamodb.
  */
-if (settings.ENVIRONMENT === Environment.LOCAL || settings.ENVIRONMENT === Environment.TESTING) {
-  settings.AWS_CONFIG = {
+if (baseSettings.ENVIRONMENT === Environment.LOCAL || baseSettings.ENVIRONMENT === Environment.TESTING) {
+  baseSettings.AWS_CONFIG = {
     region: process.env.DYNAMODB_REGION,
     endpoint: process.env.DYNAMODB_ENDPOINT_URL
   }
 }
 
 
-export default settings
+export default baseSettings

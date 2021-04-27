@@ -1,5 +1,4 @@
 import settings from './settings'
-// import ganalytics from '../helpers/ganalytics'
 import * as Sentry from '@sentry/node'
 import { Environment } from './enum'
 
