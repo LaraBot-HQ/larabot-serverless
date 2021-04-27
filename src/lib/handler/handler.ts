@@ -1,5 +1,6 @@
 import { ChatPlatformEType, ChatPlatformETypeFullName } from '../enum'
 import Logger from '../logger'
+import { ObjectType } from '../type'
 
 
 abstract class BaseHandler {
@@ -13,8 +14,10 @@ abstract class BaseHandler {
 
   public async processHandler(event: any, context: any, callback: any): Promise<void> {
     Logger.log(`> New event from "${ChatPlatformETypeFullName[this.platform]}" received...`)
-    let result: any = await this.handler(this.platform, event, context)
-
+    if (typeof event.body === 'string') {
+      event.body = JSON.parse(event.body)
+    }
+    let result: ObjectType = await this.handler(this.platform, event, context)
     callback(null, {
       statusCode: 200,
       body: JSON.stringify(result),

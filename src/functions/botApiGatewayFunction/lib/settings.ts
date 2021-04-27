@@ -10,7 +10,7 @@ const settings = {
   // Publisher vars
   BOT_ENGINE_APIGATEWAY_URL: '',
   PUBLISHER_TYPE: PublisherType.SQS,
-  BOT_ENGINE_LOCAL_API_GATEWAY_URL: 'http://localhost:3000/dev/events/slack',
+  BOT_ENGINE_LOCAL_API_GATEWAY_URL: 'http://localhost:3000/dev/bot-engine-slack',
 
   // Platforms vars
   SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET,

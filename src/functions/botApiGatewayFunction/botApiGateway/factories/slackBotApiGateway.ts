@@ -15,13 +15,17 @@ class SlackApiGateway extends BaseApiGateway {
 
   public async processEvent(request: any): Promise<ObjectType | string> {
     Logger.log('> Process event...')
-    if (typeof request.body === 'string') {
-      request.body = JSON.parse(request.body)
-    }
 
     if (typeof request.body.payload === 'string') {
       request.body.payload = JSON.parse(request.body.payload)
     }
+
+    // if (typeof request.body === 'string' && request.body.indexOf('payload=') === 0) {
+    //   request.body = decodeURIComponent(request.body)
+    //   request.body = request.body.replace('payload=', '')
+    //   request.body = request.body.replace(/\+/g, ' ')
+    //   request.body = { payload: JSON.parse(request.body) }
+    // }
 
     if (!this.validateRequest(request)) {
       Logger.log('> Ignoring bot message or not relevant events...')

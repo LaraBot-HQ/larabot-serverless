@@ -25,7 +25,7 @@ class HttpPublisher extends BasePublisher {
     }
     console.log('#################')
     console.log(messagePayload)
-    await this.sender.send(HTTPMethod.POST, this.senderURI, { body: JSON.stringify(messagePayload) })
+    await this.sender.send(HTTPMethod.POST, this.senderURI, messagePayload)
 
     return { status: '200 OK' }
   }
