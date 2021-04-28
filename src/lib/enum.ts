@@ -14,7 +14,7 @@ export enum ChatPlatformEType {
 
 export enum ChatPlatformETypeName {
   slack = 'Slack',
-  gchat = 'Google Chat',
+  gchat = 'GChat',
   msteams = 'MSTeams',
 }
 
@@ -24,12 +24,12 @@ export enum ChatPlatformETypeFullName {
   msteams = 'Microsoft Teams',
 }
 
-export enum Language {
+export enum LanguageEType {
   SPANISH = 'es',
   ENGLISH = 'en',
 }
 
-export enum LanguageName {
+export enum LanguageETypeName {
   es = 'Español',
   en = 'English',
 }
@@ -37,9 +37,6 @@ export enum LanguageName {
 export enum ExpectedAnswerEType {
   AFFIRMATIVE = 'affirmative',
   NEGATIVE = 'negative',
-  SNOOZE = 'snooze',
-  HELLO = 'hello',
   CANCEL = 'cancel',
   BACK = 'back',
-  WEB = 'web',
 }

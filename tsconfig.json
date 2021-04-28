@@ -27,6 +27,7 @@
   "include": [
     "src/**/*",
     "test/**/*",
+    "handlers.ts",
     "index.d.ts" // declaration file path
   ],
   "compileOnSave": false
